@@ -1,0 +1,36 @@
+# prompt: make usernames and passwords for a website that redirects names of members in other redirected pages 
+
+import random
+import string
+
+def generate_password(length=12):
+  """Generates a random password of specified length."""
+  characters = string.ascii_letters + string.digits + string.punctuation
+  password = ''.join(random.choice(characters) for i in range(length))
+  return password
+
+def create_user_accounts(num_users=10):
+  """Creates a dictionary of usernames and passwords, along with redirection data."""
+  user_accounts = {}
+  for i in range(num_users):
+    username = f"user{i+1}"
+    password = generate_password()
+    # Simulate a redirection to a member-specific page
+    redirect_page = f"/member/{username}"
+    user_accounts[username] = {"password": password, "redirect": redirect_page}
+  return user_accounts
+
+
+# Example usage
+accounts = create_user_accounts()
+
+# Print or save the user accounts
+for username, data in accounts.items():
+  print(f"Username: {username}, Password: {data['password']}, Redirect Page: {data['redirect']}")
+
+
+# To store data in a more persistent way you could use CSV, JSON, or a database.
+# Example using json
+import json
+with open("user_accounts.json", "w") as f:
+    json.dump(accounts, f, indent=4)
